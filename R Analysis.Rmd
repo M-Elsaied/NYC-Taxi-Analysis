@@ -1,0 +1,92 @@
+---
+title: "Capital One Analysis"
+author: "Mohamed Elsaied"
+date: "October 2, 2018"
+output: html_document
+---
+
+Perform a test to determine if the average trip speeds are materially the same in all weeks of September?
+We use one way analysis of variance test to see if there is any difference, and if there is a difference, we do a post hoc analysis using Tukey's test
+
+$Assumptions$:
+
+$Normality$ : ANOVA is robust to this assumptionm  Extremely long-tailed distributions (outliers) or skewed distributions with coupled with different sample sizes (especially when the sample sizes are small) present the only serious distributional problems. In our case we have a big sample size, so no need to worry about normality
+
+$Equal Standard Deviation$: 5 sample have almost the same standard deviation (around 5.8) so we will assume equal standard deviation(can also use histograms for this)
+
+$Independence$: We have no information about how the data was collected, so will assume independence within and across groups
+
+
+${H_O}$ : $\mu 1$ = $\mu 2$ = $\mu 3$ = $\mu 4$ = $\mu 5$ (equal means model)
+
+${H_a}$: atleast 1 pair $\neq$ (seperate means model)
+
+${F}$ = 976
+
+${Significance Level}$: 95%
+
+${Pvalue}$ = 0
+
+${Decission}$: Reject Null Hypothesis
+
+${Conclusion}$: There is strong evidence at the ??=0.05 level of significance $\alpha$ (P = 0 from an ANOVA) to support the claim that the mean speed of groups is not equal
+
+${Note}$: ANOVA test doesn't tell us alot of information, it only tells us that there is atleast 1 of the means of the groups is different. Though this is not required, i will do Tukey's post hoc test. This test compares all possible pairs and we can use it to precisely identify difference between two means that's greater than the expected standard error.
+
+${Tukey's Post Hoc Analysis}$: After doing the test, we have strong evidence to fail to reject the null hypothesis and thus say that week 2 and 3 have the same mean. everything else we fail to reject the null hypothesis which means that the means of the speed over the weeks is statistically different
+
+there might be alot of confounding variable, we would hypothesize that the weather might be a factor of why they differ.
+
+
+
+```{r}
+##read data
+df = read.csv('capital_one_clean.csv')
+#anova test foe difference in weeks
+week_model = aov(speed~as.factor(week_of_month), data=df)
+summary(week_model)
+TukeyHSD(week_model)
+
+```
+
+ Build up a hypothesis of average trip speed as a function of time of day. We use one way analysis of variance test to see if there is any difference, and if there is a difference, we do a post hoc analysis using Tukey's test
+
+$Assumptions$:
+
+$Normality$ : ANOVA is robust to this assumptionm  Extremely long-tailed distributions (outliers) or skewed distributions with coupled with different sample sizes (especially when the sample sizes are small) present the only serious distributional problems. In our case we have a big sample size, so no need to worry about normality
+
+$Equal Standard Deviation$: 5 sample have almost the same standard deviation (around 5.8) so we will assume equal standard deviation(can also use histograms for this)
+
+$Independence$: We have no information about how the data was collected, so will assume independence within and across groups
+
+
+${H_O}$ : $\mu 1$ = $\mu 2$ = $\mu 3$ = $\mu 4$ =  ........ = $\mu n$ (equal means model)(where n = 24)
+
+${H_a}$: atleast 1 pair $\neq$ (seperate means model)
+
+${F}$ = 5264
+
+${Significance Level}$: 95%
+
+${Pvalue}$ = 0
+
+${Decission}$: Reject Null Hypothesis
+
+${Conclusion}$: There is strong evidence at the ??=0.05 level of significance $\alpha$ (P = 0 from an ANOVA) to support the claim that the mean speed of groups is not equal
+
+${Note}$: ANOVA test doesn't tell us alot of information, it only tells us that there is atleast 1 of the means of the groups is different. Though this is not required, i will do Tukey's post hoc test. This test compares all possible pairs and we can use it to precisely identify difference between two means that's greater than the expected standard error.
+
+${Tukey's Post Hoc Analysis}$: After doing the test, we have strong evidence to fail to reject the null hypothesis and thus say that the following have the same means.
+21-7 / 11-8 / 12-8 / 10-9 / 12-11 / 13-12 / 19-13 / 18-14 / 17-16
+
+everything else we fail to reject the null hypothesis which means that the means of the speed over the weeks is statistically different
+
+
+
+```{r}
+#anova test for difference in hours
+hour_model = aov(speed~as.factor(hour), data=df)
+summary(hour_model)
+TukeyHSD(hour_model)
+```
+
