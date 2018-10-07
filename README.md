@@ -1,5 +1,5 @@
 # NYC-Taxi-Analysis
-this is analysis of the NYC taxi data set for September 2015
+This is analysis of the NYC taxi data set for September 2015
 
 
 1- NYC_Notebook.ipynb : this has all the work and the code with comments and answers to all the questions and some additional analysis(this doesn't have the statistical analysis test)
